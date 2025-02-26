@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { ThemeContext } from './ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getRandomPokemon } from './services/pokeService';
@@ -6,8 +6,11 @@ import { getRandomPokemon } from './services/pokeService';
 const App = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
     const [pokemon, setPokemon] = useState(null);
+    const clickCountRef = useRef(0);
+    const [showCount, setShowCount] = useState(0);
 
     const handleGetPokemon = async () => {
+        clickCountRef.current++;
         try {
             console.log("Llamando al service");
             const data = await getRandomPokemon();
@@ -19,6 +22,10 @@ const App = () => {
         } catch (error) {
             console.error("Error al obtener pokemon:", error);
         }
+    };
+
+    const handleShowStats = () => {
+        setShowCount(clickCountRef.current);
     };
 
     return (
@@ -58,6 +65,13 @@ const App = () => {
                     >
                         Obtener pokemon al azar
                     </button>
+                    <button
+                        className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold"
+                        onClick={handleShowStats}
+                    >
+                        Ver estadísticas
+                    </button>
+                    <p className="mt-3">Total de Pokemon solicitados: {showCount}</p>
                     {pokemon && (
                         <div className="mt-4">
                             <h2 className="text-capitalize">{pokemon.name}</h2>
