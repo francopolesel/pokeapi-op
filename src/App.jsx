@@ -18,49 +18,51 @@ const App = () => {
 
     return (
         <div
-            className={`d-flex justify-content-center align-items-center text-center w-100 min-vh-100 ${theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark'}`}
+            className={`d-flex flex-column min-vh-100 ${theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark'}`}
         >
-            <div
-                className="p-5 rounded shadow w-100"
-                style={{
-                    backgroundColor: theme === 'dark' ? '#333' : 'rgba(255, 255, 255, 0.9)',
-                    minHeight: '50vh'
-                }}
-            >
-                <h1
-                    className="fw-bold mb-4"
-                    style={{
-                        color: theme === 'dark' ? '#FFD700' : '#DC143C'
-                    }}
-                >
-                    ¡Bienvenido a la PokeAPI!
-                </h1>
-                <p className="lead">
-                    Explorá el mundo de Pokémon con nuestra API interactiva.
-                </p>
+            <header className="d-flex justify-content-end p-3">
                 <button
-                    className="btn btn-primary mt-3 px-4 py-2 fw-bold"
+                    className="btn btn-primary fw-bold"
                     onClick={toggleTheme}
                 >
                     {theme === 'dark' ? 'Modo Claro 🔆' : 'Modo Oscuro 🌙'}
                 </button>
-                <button
-                    className="btn btn-success mt-3 px-4 py-2 fw-bold"
-                    onClick={handleGetPokemon}
+            </header>
+            <main className="flex-grow-1 d-flex justify-content-center align-items-center text-center">
+                <div
+                    className="p-5 rounded shadow w-75"
+                    style={{
+                        backgroundColor: theme === 'dark' ? '#333' : 'rgba(255, 255, 255, 0.9)',
+                        minHeight: '50vh'
+                    }}
                 >
-                    Obtener pokemon al azar
-                </button>
-                {
-                    pokemonImage && (
+                    <h1
+                        className="fw-bold mb-4"
+                        style={{
+                            color: theme === 'dark' ? '#FFD700' : '#DC143C'
+                        }}
+                    >
+                        ¡Bienvenido a la PokeAPI!
+                    </h1>
+                    <p className="lead">
+                        Explorá el mundo de Pokémon con nuestra API interactiva.
+                    </p>
+                    <button
+                        className="btn btn-success mt-3 px-4 py-2 fw-bold"
+                        onClick={handleGetPokemon}
+                    >
+                        Obtener pokemon al azar
+                    </button>
+                    {pokemonImage && (
                         <div className="mt-4">
                             <img
                                 src={pokemonImage}
                                 alt="Pokemon al azar"
                             />
                         </div>
-                    )
-                }
-            </div>
+                    )}
+                </div>
+            </main>
         </div>
     );
 };
