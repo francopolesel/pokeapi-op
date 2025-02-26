@@ -6,6 +6,7 @@ const getRandomPokemon = async () => {
         const response = await axios.get(
             `https://pokeapi.co/api/v2/pokemon/${randomId}`
         );
+        console.log("Volviendo del service")
         return response.data;
     } catch (error) {
         console.error("Error al obtener el pokemon:", error);
