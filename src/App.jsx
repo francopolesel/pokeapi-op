@@ -1,27 +1,17 @@
 import { useContext, useState, useRef } from 'react';
 import { ThemeContext } from './ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getRandomPokemon } from './services/pokeService';
+import usePokemon from './hooks/usePokemon';
 
 const App = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const [pokemon, setPokemon] = useState(null);
+    const { pokemon, loading, error, fetchPokemon } = usePokemon();
     const clickCountRef = useRef(0);
     const [showCount, setShowCount] = useState(0);
 
     const handleGetPokemon = async () => {
         clickCountRef.current++;
-        try {
-            console.log("Llamando al service");
-            const data = await getRandomPokemon();
-            console.log("Seteando la información del pokemon", data.species.name);
-            setPokemon({
-                name: data.species.name,
-                image: data.sprites.front_shiny
-            });
-        } catch (error) {
-            console.error("Error al obtener pokemon:", error);
-        }
+        await fetchPokemon();
     };
 
     const handleShowStats = () => {
@@ -29,14 +19,9 @@ const App = () => {
     };
 
     return (
-        <div
-            className={`d-flex flex-column min-vh-100 ${theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark'}`}
-        >
+        <div className={`d-flex flex-column min-vh-100 ${theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark'}`}>
             <header className="d-flex justify-content-end p-3">
-                <button
-                    className="btn btn-primary fw-bold"
-                    onClick={toggleTheme}
-                >
+                <button className="btn btn-primary fw-bold" onClick={toggleTheme}>
                     {theme === 'dark' ? 'Modo Claro 🔆' : 'Modo Oscuro 🌙'}
                 </button>
             </header>
@@ -57,29 +42,21 @@ const App = () => {
                         ¡Bienvenido a la PokeAPI!
                     </h1>
                     <p className="lead">
-                        Hacé click para obtener un Pokemon al azar!
+                        ¡Hacé click para obtener un Pokémon al azar!
                     </p>
-                    <button
-                        className="btn btn-success mt-3 px-4 py-2 fw-bold"
-                        onClick={handleGetPokemon}
-                    >
-                        Obtener pokemon al azar
+                    <button className="btn btn-success mt-3 px-4 py-2 fw-bold" onClick={handleGetPokemon}>
+                        Obtener Pokémon al azar
                     </button>
-                    <button
-                        className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold"
-                        onClick={handleShowStats}
-                    >
+                    <button className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold" onClick={handleShowStats}>
                         Ver estadísticas
                     </button>
-                    <p className="mt-3">Total de Pokemon solicitados: {showCount}</p>
+                    <p className="mt-3">Total de Pokémon solicitados: {showCount}</p>
+                    {loading && <p>Cargando...</p>}
+                    {error && <p>Error al cargar el Pokémon</p>}
                     {pokemon && (
                         <div className="mt-4">
                             <h2 className="text-capitalize">{pokemon.name}</h2>
-                            <img
-                                src={pokemon.image}
-                                alt={pokemon.name}
-                                className="img-fluid"
-                            />
+                            <img src={pokemon.image} alt={pokemon.name} className="img-fluid" />
                         </div>
                     )}
                 </div>
