@@ -57,12 +57,14 @@ const App = () => {
                     >
                         Obtener Pokémon al azar
                     </button>
-                    <button
-                        className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold"
-                        onClick={togglePokemonVisibility}
-                    >
-                        {isPokemonVisible ? 'Ocultar Pokémon' : 'Mostrar Pokémon'}
-                    </button>
+                    {pokemonRequestCount > 0 && (
+                        <button
+                            className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold"
+                            onClick={togglePokemonVisibility}
+                        >
+                            {isPokemonVisible ? 'Ocultar Pokémon' : 'Mostrar Pokémon'}
+                        </button>
+                    )}
                     <p className="mt-3">
                         Total de Pokémon solicitados: {pokemonRequestCount}
                     </p>
