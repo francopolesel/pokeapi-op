@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from 'react';
 import { ThemeContext } from './ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import usePokemon from './hooks/usePokemon';
+import Footer from './Footer';
 
 const App = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
@@ -61,6 +62,7 @@ const App = () => {
                     )}
                 </div>
             </main>
+            <Footer />
         </div>
     );
 };
