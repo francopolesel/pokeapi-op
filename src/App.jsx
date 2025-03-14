@@ -7,16 +7,21 @@ import Footer from './Footer';
 const App = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
     const { pokemon, loading, error, fetchPokemon } = usePokemon();
-    const clickCountRef = useRef(0);
-    const [showCount, setShowCount] = useState(0);
+    const [pokemonRequestCount, setPokemonRequestCount] = useState(0);
+    const [isPokemonVisible, setIsPokemonVisible] = useState(true);
+    const pokemonContainerRef = useRef(null);
 
     const handleGetPokemon = async () => {
-        clickCountRef.current++;
         await fetchPokemon();
+        setPokemonRequestCount(prevCount => prevCount + 1);
     };
 
-    const handleShowStats = () => {
-        setShowCount(clickCountRef.current);
+    const togglePokemonVisibility = () => {
+        if (pokemonContainerRef.current) {
+            const currentDisplay = pokemonContainerRef.current.style.display;
+            pokemonContainerRef.current.style.display = currentDisplay === 'none' ? 'block' : 'none';
+            setIsPokemonVisible(prev => !prev);
+        }
     };
 
     return (
@@ -48,14 +53,14 @@ const App = () => {
                     <button className="btn btn-success mt-3 px-4 py-2 fw-bold" onClick={handleGetPokemon}>
                         Obtener Pokémon al azar
                     </button>
-                    <button className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold" onClick={handleShowStats}>
-                        Ver estadísticas
+                    <button className="btn btn-info mt-3 ms-2 px-4 py-2 fw-bold" onClick={togglePokemonVisibility}>
+                        {isPokemonVisible ? 'Ocultar Pokémon' : 'Mostrar Pokémon'}
                     </button>
-                    <p className="mt-3">Total de Pokémon solicitados: {showCount}</p>
+                    <p className="mt-3">Total de Pokémon solicitados: {pokemonRequestCount}</p>
                     {loading && <p>Cargando...</p>}
                     {error && <p>Error al cargar el Pokémon</p>}
                     {pokemon && (
-                        <div className="mt-4">
+                        <div ref={pokemonContainerRef} className="mt-4">
                             <h2 className="text-capitalize">{pokemon.name}</h2>
                             <img src={pokemon.image} alt={pokemon.name} className="img-fluid" />
                         </div>
