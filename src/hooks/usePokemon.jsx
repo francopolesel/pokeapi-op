@@ -7,14 +7,17 @@ const usePokemon = () => {
     const [error, setError] = useState(null);
 
     const fetchPokemon = async () => {
+        console.log("Se entró al hook usePokemon");
         setLoading(true);
         setError(null);
         try {
+            console.log("Se está solicitando un Pokémon");
             const data = await getRandomPokemon();
             setPokemon({
                 name: data.species.name,
                 image: data.sprites.front_shiny
             });
+            console.log("Se obtuvo el Pokémon: ", data.species.name);
         } catch (err) {
             setError(err);
         } finally {

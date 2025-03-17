@@ -12,13 +12,16 @@ const App = () => {
     const pokemonContainerRef = useRef(null);
 
     const handleGetPokemon = async () => {
+        console.log("Se solicitó un Pokémon");
         await fetchPokemon();
+        console.log("Ya tengo el Pokémon obtenido en App.jsx y con esta información: ", pokemon);
         setPokemonRequestCount(prevCount => prevCount + 1);
     };
 
     const togglePokemonVisibility = () => {
         if (pokemonContainerRef.current) {
             const currentDisplay = pokemonContainerRef.current.style.display;
+            console.log("Se cambió el display de", currentDisplay, "a", currentDisplay === 'none' ? 'block' : 'none');
             pokemonContainerRef.current.style.display = currentDisplay === 'none' ? 'block' : 'none';
             setIsPokemonVisible(prev => !prev);
         }
