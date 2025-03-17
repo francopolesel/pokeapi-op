@@ -14,7 +14,7 @@ const App = () => {
     const handleGetPokemon = async () => {
         console.log("Se solicitó un Pokémon");
         await fetchPokemon();
-        console.log("Ya tengo el Pokémon obtenido en App.jsx y con esta información: ", pokemon);
+        console.log("Ya tengo el Pokémon obtenido en App.jsx");
         setPokemonRequestCount(prevCount => prevCount + 1);
     };
 
