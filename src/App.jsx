@@ -9,8 +9,8 @@ const App = () => {
     const { pokemon, loading, error, fetchPokemon } = usePokemon();
     const [pokemonRequestCount, setPokemonRequestCount] = useState(0);
     const [isPokemonVisible, setIsPokemonVisible] = useState(true);
-    const pokemonContainerRef = useRef(null);
-
+    const pokemonContainerRef = useRef(null); //Devuelve un objeto con una propiedad current que se mantiene constante durante toda la vida del componente.
+    
     const handleGetPokemon = async () => {
         console.log("Se solicitó un Pokémon");
         await fetchPokemon();
@@ -19,6 +19,7 @@ const App = () => {
     };
 
     const togglePokemonVisibility = () => {
+        //Se comprueba que pokemonContainerRef.current exista, lo que garantiza que el elemento está montado.
         if (pokemonContainerRef.current) {
             const currentDisplay = pokemonContainerRef.current.style.display;
             console.log("Se cambió el display de", currentDisplay, "a", currentDisplay === 'none' ? 'block' : 'none');
@@ -74,6 +75,7 @@ const App = () => {
                     {loading && <p>Cargando...</p>}
                     {error && <p>Error al cargar el Pokémon</p>}
                     {pokemon && (
+                        //La propiedad ref={pokemonContainerRef} asigna el elemento <div> a la propiedad current del objeto pokemonContainerRef
                         <div ref={pokemonContainerRef} className="mt-4">
                             <h2 className="text-capitalize">{pokemon.name}</h2>
                             <img
